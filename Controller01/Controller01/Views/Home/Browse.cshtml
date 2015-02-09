@@ -1,0 +1,80 @@
+﻿@model Controller01.Models.Products
+@{
+    ViewBag.Title = "CategoriesList";
+}
+
+<h2>Browse</h2>
+<select id="select1"></select>
+<div id="div1">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>產品編號</th>
+                <th>產品名稱</th>
+                <th>單價</th>
+                <th>庫存量</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+             @*@foreach (var _category in Model)
+            {
+                <tr>
+                    <td>@_category.CategoryID</td>
+                    <td>@_category.CategoryName</td>
+                    <td>@_category.Description</td>
+                    <td><a href="/Category/Edit/@_category.CategoryID">編輯</a></td>
+                    <td><a href="/Category/Delete/@_category.CategoryID">刪除</a></td>
+                </tr>
+            }*@
+
+        </tbody>
+    </table>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.intellisense.js"></script>
+<script>
+    loadProducts();
+    $.getJSON("/Home/CategoriesList", {}, function (datas) {
+        $.each(datas, function (i, category) {
+            var opt = $('<option></option>').val(category.CategoryID).text(category.CategoryName);
+            $('#select1').append(opt);
+
+        })
+
+    })
+
+    $("#select1").on("change", loadProducts);
+   
+
+    function loadProducts(selectedid) {
+       
+        if ($("#select1").val() == null) {
+            selectedid = 1;//let it load first category when page just loaded
+        } else {
+            selectedid = $("#select1").val();
+        }
+
+        $("tbody>tr").remove();
+        $("tbody>td").remove();
+        $.getJSON("/Home/ProductList/"+selectedid, {}, function (data) {
+            $.each(data, function () {
+
+                var productid = this.ProductID;
+                var productname = this.ProductName;
+                var unitprice = this.UnitPrice;
+                var unitsinstock = this.UnitsInStock;
+                var td1 = $("<td></td>").text(productid)
+                var td2 = $("<td></td>").text(productname);
+                var td3 = $("<td></td>").text(unitprice);
+                var td4 = $("<td></td>").text(unitsinstock);
+                
+                $("<tr></tr>").append(td1).append(td2).append(td3).append(td4).appendTo("tbody");
+
+            })
+
+        })
+
+    }
+
+</script>

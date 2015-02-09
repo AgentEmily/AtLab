@@ -1,0 +1,12 @@
+﻿
+<ul class="list-group">
+    
+        @foreach (var category in Model)
+        {
+            <li class="list-group-item">
+                <a href="/Home/Index/@category.CategoryID" >@category.CategoryName</a>
+
+            </li>
+        }
+       
+    </ul>

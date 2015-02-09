@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Controller01.Models.Products>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index </h2>
+
+<div>@Html.Action("Categories")</div>
+
+<div>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>產品編號</th>
+                <th>產品名稱</th>
+                <th>單價</th>
+                @*<th>編輯</th>
+                <th>刪除</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var _product in Model)
+            {
+                <tr>
+                    <td>@_product.ProductID</td>
+                    <td>@_product.ProductName</td>
+                    <td>@_product.UnitPrice</td>
+                    @*<td><a href="/Category/Edit/@_product.CategoryID">編輯</a></td>
+                    <td><a href="/Category/Delete/@_product.CategoryID">刪除</a></td>*@
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
